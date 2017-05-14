@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        /*需要注意css3中X轴以右为正方向，Y轴向下为正方向，Z轴以向屏幕外面为正方向*/
+        #wrapper{
+            perspective: 500px;/*设置骰子被查看位置的视图（观察者与z=0平面的距离）：*/
+            -webkit-perspective:500px;
+            -moz-perspective:500px;
+        }
+        #group{
+            width: 200px;
+            height: 200px;
+            position: relative;
+            /*使其子元素保持3D转换*/
+            -webkit-transform-style:preserve-3d;
+            -moz-transform-style:preserve-3d;
+            transform-style:preserve-3d;
+            /*设置骰子旋转的基点位置（骰子中心点）*/
+            -webkit-transform-origin:50% 50% -100px;
+            -moz-transform-origin:50% 50% -100px;
+            transform-origin:50% 50% -100px;
+            /*设置骰子动画效果*/
+            margin: 200px auto;
+            -webkit-animation:scroll 3s linear 0s infinite;
+            -moz-animation:scroll 3s linear 0s infinite;
+            transform-animation:scroll 3s linear 0s infinite;
+
+            background-color:#E8E8E9;
+            border-radius:20px;
+        }
+        .page{
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            border-radius: 20px;
+            text-align: center;
+            overflow: hidden;
+            background-color:#E8E8E9;
+        }
+        /*开始设置每个面的角度，将6个面拼成一个正方体*/
+        #page1{
+        }
+        #page2{
+            transform-origin:right;/*点数为2的面以右边为转轴转动*/
+            transform:rotateY(-90deg);/*绕Y轴逆时针转动90度*/
+            -webkit-transform-origin:right;
+            -webkit-transform:rotateY(-90deg);
+            -moz-transform-origin:right;
+            -moz-transform:rotateY(-90deg);
+        }
+        #page3{
+            transform-origin:left;/*点数为3的面以左边为转轴转动*/
+            transform:rotateY(90deg);/*绕Y轴顺时针转动90度*/
+            -webkit-transform-origin:left;
+            -webkit-transform:rotateY(90deg);
+            -moz-transform-origin:left;
+            -moz-transform:rotateY(90deg);
+        }
+        #page4{
+            transform-origin:top;/*点数为4的面以上边为转轴转动*/
+            transform:rotateX(-90deg);/*绕X轴逆时针转动90度*/
+            -webkit-transform-origin:top;
+            -webkit-transform:rotateX(-90deg);
+            -moz-transform-origin:top;
+            -moz-transform:rotateX(-90deg);
+        }
+        #page5{
+            transform-origin:bottom;/*点数为5的面以下边为转轴转动*/
+            transform:rotateX(90deg);/*绕X轴顺时针转动90度*/
+            -webkit-transform-origin:bottom;
+            -webkit-transform:rotateX(90deg);
+            -moz-transform-origin:bottom;
+            -moz-transform:rotateX(90deg);
+        }
+        #page6{
+            transform:translateZ(-200px);/*点数为6的面沿Z轴向后平移200px*/
+            -webkit-transform:translateZ(-200px);
+            -moz-transform:translateZ(-200px);
+        }
+        .page span {
+            display:inline-block;
+            width:50px;
+            height:50px;
+            border-radius:25px;
+            background-color:#050505;
+            box-shadow:inset 3px 3px 5px #000;/*骰子点数的阴影效果*/
+        }
+        /*下面是对点数样式的控制*/
+        #page1 span{
+            position:absolute;
+            left:50%;
+            top:50%;
+            margin-top:-25px;
+            margin-left: -25px;
+            background-color:#f00;
+        }
+        #page2 span {
+            margin:75px 25px;
+        }
+        #page3 span {
+            position:absolute;
+        }
+        #page3 span:first-child {
+            top:20px;
+            left:20px;
+        }
+        #page3 span:nth-child(2) {
+            top:75px;
+            left:75px;
+        }
+        #page3 span:last-child {
+            bottom:20px;
+            right:20px;
+        }
+        #page4 span {
+            margin:25px 25px;
+        }
+        #page5 span {
+            margin:25px 25px;
+        }
+        #page5 span:last-child {
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-left:-25px;
+            margin-top:-25px;
+        }
+        #page6 span {
+            margin:7px 25px;
+        }
+        /*设置骰子具体动画效果 确保骰子的每个面都可以看到，后面会运动快一些*/
+        @keyframes scroll {
+            0% {
+                transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+            }
+            25% {
+                transform:rotateY(0deg) rotateX(90deg) rotateZ(90deg);
+            }
+            50% {
+                transform:rotateY(0deg) rotateX(180deg) rotateZ(180deg);
+            }
+            75% {
+                transform:rotateY(180deg) rotateX(270deg) rotateZ(270deg);
+            }
+            100% {
+                transform:rotateY(360deg) rotateX(360deg) rotateZ(360deg);
+            }
+        }
+        @-moz-keyframes scroll {
+            0% {
+                -moz-transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+            }
+            25% {
+                -moz-transform:rotateY(0deg) rotateX(90deg) rotateZ(90deg);
+            }
+            50% {
+                -moz-transform:rotateY(0deg) rotateX(180deg) rotateZ(180deg);
+            }
+            75% {
+                -moz-transform:rotateY(180deg) rotateX(270deg) rotateZ(270deg);
+            }
+            100% {
+                -moz-transform:rotateY(360deg) rotateX(360deg) rotateZ(360deg);
+            }
+        }
+        @-webkit-keyframes scroll {
+            0% {
+                -webkit-transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+            }
+            25% {
+                -webkit-transform:rotateY(0deg) rotateX(90deg) rotateZ(90deg);
+            }
+            50% {
+                -webkit-transform:rotateY(0deg) rotateX(180deg) rotateZ(180deg);
+            }
+            75% {
+                -webkit-transform:rotateY(180deg) rotateX(270deg) rotateZ(270deg);
+            }
+            100% {
+                -webkit-transform:rotateY(360deg) rotateX(360deg) rotateZ(360deg);
+            }
+
+        }
+    </style>
+</head>
+<body>
+<!--span是点数-->
+<div id="wrapper">
+    <div id="group">
+        <div class="page" id="page1"><span></span></div>
+        <div class="page" id="page2"><span></span><span></span></div>
+        <div class="page" id="page3"><span></span><span></span><span></span></div>
+        <div class="page" id="page4"><span></span><span></span><span></span><span></span></div>
+        <div class="page" id="page5"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="page" id="page6"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+</div>
+</body>
+</html>
